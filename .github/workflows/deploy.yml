@@ -9,9 +9,9 @@ jobs:
   build-push-deploy:
     runs-on: ubuntu-latest
     env:
-      # Docker Hub image name in the form <dockerhub-username>/<repo-name>, here malnadhudga/todo-list.
-      # Change "malnadhudga" to your Docker Hub username and "todo-list" to your own repo name.
-      IMAGE: malnadhudga/todo-list
+      # Docker Hub image name in the form <dockerhub-username>/<repo-name>, e.g. malnadhudga/todo-list.
+      # The username comes from the DOCKERHUB_USERNAME secret; change "todo-list" to your own repo name.
+      IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/todo-list
       VERSION: v${{ github.run_number }}
     steps:
       - uses: actions/checkout@v4
