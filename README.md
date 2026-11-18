@@ -134,9 +134,23 @@ Invalid input (for example an empty `title`) is rejected with HTTP **422** and a
 
 ## Run with Docker
 
+Pull the prebuilt image from Docker Hub:
+
+```bash
+docker run -p 8000:8000 malnadhudga/todo-list:latest
+```
+
+Or build it yourself:
+
 ```bash
 docker build -t todo-list .
 docker run -p 8000:8000 todo-list
 ```
 
 The SQLite file lives inside the container, so todos are lost when the container is removed.
+
+## CI/CD
+
+`.github/workflows/deploy.yml` runs on every push to `main` (or manually from the Actions tab). It builds the image, pushes it to Docker Hub as `malnadhudga/todo-list:latest` and `malnadhudga/todo-list:v<run number>`, then SSHes into EC2 and restarts the `todo-list` container on port 8000.
+
+It needs these repository secrets: `DOCKERHUB_USERNAME`, `DOCKERHUB_TOKEN`, `EC2_HOST`, `EC2_USER`, `EC2_SSH_KEY`.
